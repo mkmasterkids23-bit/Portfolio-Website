@@ -43,7 +43,7 @@ const Navbar = () => {
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
-          Logo
+          <img src="/images/logo.png" alt="Logo" style={{ height: "40px", objectFit: "contain" }} />
         </a>
         <a
           href="mailto:mkmasterkids23@gmail.com"
