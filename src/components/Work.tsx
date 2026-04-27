@@ -71,30 +71,33 @@ const Work = () => {
       const flex = document.querySelector(".work-flex");
       if (!flex) return;
       
-      translateX = flex.scrollWidth - window.innerWidth; 
+      // Using scrollWidth plus a buffer to ensure the 9th project is fully seen
+      translateX = flex.scrollWidth - window.innerWidth + 200; 
+      if (translateX < 0) translateX = 0;
     }
 
     setTranslateX();
     
-    // Multiple checks to ensure layout is settled
     const refresh = () => {
       setTranslateX();
       ScrollTrigger.refresh();
     };
     
     window.addEventListener("resize", refresh);
-    setTimeout(refresh, 500);
-    setTimeout(refresh, 2000);
+    setTimeout(refresh, 100);
+    setTimeout(refresh, 1000);
+    setTimeout(refresh, 3000);
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${translateX + 100}`, 
+        end: () => `+=${translateX + 500}`, 
         scrub: 1,
         pin: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        refreshPriority: 1,
       },
     });
 
