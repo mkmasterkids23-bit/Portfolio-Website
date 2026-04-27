@@ -68,16 +68,10 @@ const Work = () => {
     let translateX: number = 0;
 
     function setTranslateX() {
-      const boxes = document.querySelectorAll(".work-box");
-      if (boxes.length === 0) return;
+      const flex = document.querySelector(".work-flex");
+      if (!flex) return;
       
-      let totalWidth = 0;
-      boxes.forEach((box) => {
-        totalWidth += (box as HTMLElement).offsetWidth;
-      });
-      
-      // Calculate exactly how much to move to see the last pixel of the finale
-      translateX = totalWidth - window.innerWidth + 100; 
+      translateX = flex.scrollWidth - window.innerWidth; 
     }
 
     setTranslateX();
