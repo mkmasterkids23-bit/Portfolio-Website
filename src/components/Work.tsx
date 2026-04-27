@@ -68,29 +68,35 @@ const Work = () => {
     let translateX: number = 0;
 
     function setTranslateX() {
-      const flex = document.querySelector(".work-flex");
-      if (!flex) return;
+      const boxes = document.querySelectorAll(".work-box");
+      if (boxes.length === 0) return;
       
-      translateX = flex.scrollWidth - window.innerWidth; 
+      let totalWidth = 0;
+      boxes.forEach((box) => {
+        totalWidth += (box as HTMLElement).offsetWidth;
+      });
+      
+      // Calculate exactly how much to move to see the last pixel of the finale
+      translateX = totalWidth - window.innerWidth + 100; 
     }
 
     setTranslateX();
     
-    // Multiple checks to ensure layout is settled
     const refresh = () => {
       setTranslateX();
       ScrollTrigger.refresh();
     };
     
     window.addEventListener("resize", refresh);
-    setTimeout(refresh, 500);
-    setTimeout(refresh, 2000);
+    // Multiple intervals to catch image loads
+    const intervals = [100, 500, 1000, 2000, 5000];
+    intervals.forEach(ms => setTimeout(refresh, ms));
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${translateX + window.innerWidth}`, 
+        end: () => `+=${translateX + 1500}`, // Increased buffer
         scrub: 1,
         pin: true,
         anticipatePin: 1,
@@ -104,8 +110,8 @@ const Work = () => {
     });
 
     timeline.fromTo(".finale-text", 
-      { opacity: 0, scale: 0.8, y: 50 },
-      { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "power2.out" },
+      { opacity: 0, scale: 0.5, y: 100 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" },
       ">"
     );
 
