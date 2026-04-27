@@ -90,7 +90,7 @@ const Work = () => {
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${translateX + 300}`, 
+        end: () => `+=${translateX + 100}`, 
         scrub: 1,
         pin: true,
         anticipatePin: 1,
