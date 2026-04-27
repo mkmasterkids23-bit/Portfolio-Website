@@ -210,3 +210,26 @@
     height: auto;
   }
 }
+
+.finale-box {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  min-width: 100vw;
+  padding: 0 !important;
+}
+.finale-text {
+  font-size: 10vw;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: white;
+  text-align: center;
+}
+.finale-text span {
+  color: var(--accentColor);
+}
+@media only screen and (max-width: 900px) {
+  .finale-text {
+    font-size: 15vw;
+  }
+}

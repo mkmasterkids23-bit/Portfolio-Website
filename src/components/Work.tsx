@@ -71,17 +71,21 @@ const Work = () => {
       const flex = document.querySelector(".work-flex");
       if (!flex) return;
       
-      // scrollWidth captures the entire width of all boxes including gaps and padding
-      translateX = flex.scrollWidth - window.innerWidth + 150; 
+      translateX = flex.scrollWidth - window.innerWidth; 
     }
 
     setTranslateX();
+    // Refresh after images likely loaded
+    setTimeout(() => {
+      setTranslateX();
+      ScrollTrigger.refresh();
+    }, 1500);
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${translateX + window.innerHeight}`,
+        end: () => `+=${translateX + 1000}`, 
         scrub: 1,
         pin: true,
         anticipatePin: 1,
@@ -92,9 +96,13 @@ const Work = () => {
     timeline.to(".work-flex", {
       x: () => -translateX,
       ease: "none",
-      duration: 1,
-    })
-      .to({}, { duration: 0.5 }); // Add a pause at the end of horizontal scroll
+    });
+
+    timeline.fromTo(".finale-text", 
+      { opacity: 0, scale: 0.5, y: 100 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" },
+      ">-=0.2"
+    );
 
     return () => {
       timeline.kill();
@@ -124,6 +132,9 @@ const Work = () => {
               <WorkImage image={project.image} alt={project.name} />
             </div>
           ))}
+          <div className="work-box finale-box">
+             <h1 className="finale-text">Maheen <span>Mubasher</span></h1>
+          </div>
         </div>
       </div>
     </div>
