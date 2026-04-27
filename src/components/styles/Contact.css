@@ -1,7 +1,13 @@
 .contact-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin: auto;
-  padding-bottom: 100px;
-  margin-top: 200px;
+  padding: 100px 0;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 .contact-section h3 {
   font-size: 60px;
