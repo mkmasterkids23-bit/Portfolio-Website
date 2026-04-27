@@ -75,17 +75,22 @@ const Work = () => {
     }
 
     setTranslateX();
-    // Refresh after images likely loaded
-    setTimeout(() => {
+    
+    // Multiple checks to ensure layout is settled
+    const refresh = () => {
       setTranslateX();
       ScrollTrigger.refresh();
-    }, 1500);
+    };
+    
+    window.addEventListener("resize", refresh);
+    setTimeout(refresh, 500);
+    setTimeout(refresh, 2000);
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${translateX + 1000}`, 
+        end: () => `+=${translateX + window.innerWidth}`, 
         scrub: 1,
         pin: true,
         anticipatePin: 1,
@@ -99,12 +104,13 @@ const Work = () => {
     });
 
     timeline.fromTo(".finale-text", 
-      { opacity: 0, scale: 0.5, y: 100 },
-      { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" },
-      ">-=0.2"
+      { opacity: 0, scale: 0.8, y: 50 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "power2.out" },
+      ">"
     );
 
     return () => {
+      window.removeEventListener("resize", refresh);
       timeline.kill();
     };
   }, []);

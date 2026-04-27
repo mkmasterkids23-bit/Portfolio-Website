@@ -22,7 +22,7 @@
   align-content: stretch;
 }
 .work-flex {
-  width: 100%;
+  width: max-content;
   display: flex;
   height: 100%;
   margin-left: -80px;
