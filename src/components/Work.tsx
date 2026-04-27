@@ -68,16 +68,11 @@ const Work = () => {
     let translateX: number = 0;
 
     function setTranslateX() {
-      const boxes = document.querySelectorAll(".work-box");
-      if (boxes.length === 0) return;
+      const flex = document.querySelector(".work-flex");
+      if (!flex) return;
       
-      let totalWidth = 0;
-      boxes.forEach((box) => {
-        totalWidth += box.getBoundingClientRect().width;
-      });
-      
-      // translateX is the amount to scroll to see everything
-      translateX = totalWidth - window.innerWidth + 100; 
+      // scrollWidth captures the entire width of all boxes including gaps and padding
+      translateX = flex.scrollWidth - window.innerWidth + 150; 
     }
 
     setTranslateX();
@@ -86,7 +81,7 @@ const Work = () => {
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${translateX}`,
+        end: () => `+=${translateX + window.innerHeight}`,
         scrub: 1,
         pin: true,
         anticipatePin: 1,
@@ -97,7 +92,9 @@ const Work = () => {
     timeline.to(".work-flex", {
       x: () => -translateX,
       ease: "none",
-    });
+      duration: 1,
+    })
+      .to({}, { duration: 0.5 }); // Add a pause at the end of horizontal scroll
 
     return () => {
       timeline.kill();

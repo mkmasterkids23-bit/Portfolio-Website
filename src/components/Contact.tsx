@@ -57,11 +57,11 @@ const Contact = () => {
             </a>
           </div>
           <div className="contact-box">
-            <h2>
-              Designed and Developed <br /> by <span>Maheen Mubasher</span>
+            <h2 className="contact-name">
+              Maheen <span>Mubasher</span>
             </h2>
             <h5>
-              <MdCopyright /> 2024
+              <MdCopyright /> 2024 | Designed and Developed by Me
             </h5>
           </div>
         </div>

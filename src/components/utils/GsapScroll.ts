@@ -42,6 +42,17 @@ export function setCharTimeline(
     },
   }) : null;
 
+  const techStackSection = document.querySelector("#techstack");
+  const tl4 = techStackSection ? gsap.timeline({
+    scrollTrigger: {
+      trigger: techStackSection,
+      start: "top 80%",
+      end: "bottom top",
+      scrub: true,
+      invalidateOnRefresh: true,
+    },
+  }) : null;
+
   let screenLight: any, monitor: any;
   character?.children.forEach((object: any) => {
     if (object.name === "Plane004") {
