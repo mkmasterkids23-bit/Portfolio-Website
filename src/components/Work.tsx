@@ -65,21 +65,17 @@ const projectsData = [
 
 const Work = () => {
   useGSAP(() => {
-    function setTranslateX() {
+    const getScrollAmount = () => {
       const flex = document.querySelector(".work-flex") as HTMLElement;
       if (!flex) return 0;
-      const totalWidth = flex.scrollWidth;
-      const viewportWidth = window.innerWidth;
-      console.log("Work Scroll Debug:", { totalWidth, viewportWidth, scrollDistance: totalWidth - viewportWidth });
-      return Math.max(0, totalWidth - viewportWidth);
-    }
+      return Math.max(0, flex.scrollWidth - window.innerWidth);
+    };
 
     const refresh = () => {
       ScrollTrigger.refresh();
     };
 
     window.addEventListener("resize", refresh);
-    // Initial refreshes to handle image loading
     setTimeout(refresh, 500);
     setTimeout(refresh, 1500);
 
@@ -87,7 +83,7 @@ const Work = () => {
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${setTranslateX() + window.innerWidth}`,
+        end: () => `+=${getScrollAmount()}`,
         scrub: 1,
         pin: true,
         anticipatePin: 1,
@@ -97,7 +93,7 @@ const Work = () => {
     });
 
     timeline.to(".work-flex", {
-      x: () => -setTranslateX(),
+      x: () => -getScrollAmount(),
       ease: "none",
     });
 
