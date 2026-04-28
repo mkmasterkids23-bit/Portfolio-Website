@@ -68,7 +68,10 @@ const Work = () => {
     const getScrollAmount = () => {
       const flex = document.querySelector(".work-flex") as HTMLElement;
       if (!flex) return 0;
-      return Math.max(0, flex.scrollWidth - window.innerWidth);
+      // 9 projects * 600px each + margins/padding
+      const projectsWidth = 600 * 9; 
+      const viewportWidth = window.innerWidth;
+      return Math.max(0, projectsWidth - (viewportWidth * 0.5));
     };
 
     const refresh = () => {
@@ -83,7 +86,7 @@ const Work = () => {
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${getScrollAmount()}`,
+        end: () => `+=${document.querySelector(".work-flex")?.scrollWidth || 5000}`,
         scrub: 1,
         pin: true,
         pinSpacing: true,
@@ -94,7 +97,11 @@ const Work = () => {
     });
 
     timeline.to(".work-flex", {
-      x: () => -getScrollAmount(),
+      x: () => {
+        const flex = document.querySelector(".work-flex") as HTMLElement;
+        if (!flex) return 0;
+        return -(flex.scrollWidth - window.innerWidth + 100);
+      },
       ease: "none",
     });
 
