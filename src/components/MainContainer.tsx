@@ -42,7 +42,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
           <WhatIDo />
           <Career />
           <Work />
-          <div style={{ height: "50vh" }}></div>
+          <div style={{ height: "100vh" }}></div>
         </div>
       </div>
     </div>

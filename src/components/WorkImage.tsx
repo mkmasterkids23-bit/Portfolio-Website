@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 interface Props {
   image: string;
@@ -36,7 +37,11 @@ const WorkImage = (props: Props) => {
             <MdArrowOutward />
           </div>
         )}
-        <img src={props.image} alt={props.alt} />
+        <img 
+          src={props.image} 
+          alt={props.alt} 
+          onLoad={() => ScrollTrigger.refresh()}
+        />
         {isVideo && <video src={video} autoPlay muted playsInline loop></video>}
       </a>
     </div>
