@@ -65,45 +65,33 @@ const projectsData = [
 
 const Work = () => {
   useGSAP(() => {
-    function setTranslateX() {
-      const flex = document.querySelector(".work-flex") as HTMLElement;
-      if (!flex) return 0;
-      const totalWidth = flex.scrollWidth;
-      const viewportWidth = window.innerWidth;
-      console.log("Work Scroll Debug:", { totalWidth, viewportWidth, scrollDistance: totalWidth - viewportWidth });
-      return Math.max(0, totalWidth - viewportWidth);
-    }
+    const flex = document.querySelector(".work-flex");
+    if (!flex) return;
 
-    const refresh = () => {
-      ScrollTrigger.refresh();
+    const getScrollAmount = () => {
+      return flex.scrollWidth - window.innerWidth;
     };
 
-    window.addEventListener("resize", refresh);
-    // Initial refreshes to handle image loading
-    setTimeout(refresh, 500);
-    setTimeout(refresh, 1500);
-
-    let timeline = gsap.timeline({
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${setTranslateX()}`,
+        end: () => `+=${getScrollAmount()}`,
         scrub: 1,
         pin: true,
-        anticipatePin: 1,
         invalidateOnRefresh: true,
-        refreshPriority: 1,
       },
     });
 
-    timeline.to(".work-flex", {
-      x: () => -setTranslateX(),
+    tl.to(flex, {
+      x: () => -getScrollAmount(),
       ease: "none",
     });
 
+    ScrollTrigger.refresh();
+
     return () => {
-      window.removeEventListener("resize", refresh);
-      timeline.kill();
+      tl.kill();
     };
   }, []);
   return (

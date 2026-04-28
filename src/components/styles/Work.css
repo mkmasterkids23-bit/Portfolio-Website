@@ -7,39 +7,20 @@
   color: var(--accentColor);
 }
 .work-section {
-  transition: 0s;
-  height: 100vh;
-  box-sizing: border-box;
-  will-change: transform;
-  z-index: 5;
-  background-color: var(--backgroundColor);
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
-.work-container {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  align-content: stretch;
-}
+
 .work-flex {
-  width: max-content;
   display: flex;
   flex-wrap: nowrap;
-  height: 100%;
-  margin-left: -80px;
-  padding-right: 120px;
-  position: relative;
+  width: max-content;
 }
+
 .work-box {
-  padding: 80px;
-  display: flex;
-  flex-direction: column;
-  width: 600px;
-  box-sizing: border-box;
-  border-right: 1px solid #363636;
-  flex: 0 0 auto;
-  gap: 50px;
-  justify-content: start;
+  flex: 0 0 100vw;
+  height: 100vh;
 }
 .work-flex .work-box:nth-child(even) {
   flex-direction: column-reverse;
