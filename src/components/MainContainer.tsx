@@ -21,8 +21,11 @@ const MainContainer = ({ children }: PropsWithChildren) => {
     const resizeHandler = () => {
       setSplitText();
       setIsDesktopView(window.innerWidth > 1024);
+      ScrollTrigger.refresh();
     };
     resizeHandler();
+    setTimeout(ScrollTrigger.refresh, 1000);
+    setTimeout(ScrollTrigger.refresh, 3000);
     window.addEventListener("resize", resizeHandler);
     return () => {
       window.removeEventListener("resize", resizeHandler);
