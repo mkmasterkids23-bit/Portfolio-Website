@@ -70,6 +70,7 @@ const Work = () => {
       if (!flex) return 0;
       const totalWidth = flex.scrollWidth;
       const viewportWidth = window.innerWidth;
+      console.log("Work Scroll Debug:", { totalWidth, viewportWidth, scrollDistance: totalWidth - viewportWidth });
       return Math.max(0, totalWidth - viewportWidth);
     }
 
