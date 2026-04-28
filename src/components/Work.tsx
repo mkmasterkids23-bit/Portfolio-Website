@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(ScrollTrigger);
 
 const projectsData = [
   {
@@ -65,34 +65,28 @@ const projectsData = [
 
 const Work = () => {
   useGSAP(() => {
-    let translateX: number = 0;
-
     function setTranslateX() {
-      const flex = document.querySelector(".work-flex");
-      if (!flex) return;
-      
-      // Using scrollWidth plus a buffer to ensure the 9th project is fully seen
-      translateX = flex.scrollWidth - window.innerWidth + 200; 
-      if (translateX < 0) translateX = 0;
+      const flex = document.querySelector(".work-flex") as HTMLElement;
+      if (!flex) return 0;
+      const totalWidth = flex.scrollWidth;
+      const viewportWidth = window.innerWidth;
+      return Math.max(0, totalWidth - viewportWidth);
     }
 
-    setTranslateX();
-    
     const refresh = () => {
-      setTranslateX();
       ScrollTrigger.refresh();
     };
-    
+
     window.addEventListener("resize", refresh);
-    setTimeout(refresh, 100);
-    setTimeout(refresh, 1000);
-    setTimeout(refresh, 3000);
+    // Initial refreshes to handle image loading
+    setTimeout(refresh, 500);
+    setTimeout(refresh, 1500);
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${translateX + 500}`, 
+        end: () => `+=${setTranslateX()}`,
         scrub: 1,
         pin: true,
         anticipatePin: 1,
@@ -102,7 +96,7 @@ const Work = () => {
     });
 
     timeline.to(".work-flex", {
-      x: () => -translateX,
+      x: () => -setTranslateX(),
       ease: "none",
     });
 
