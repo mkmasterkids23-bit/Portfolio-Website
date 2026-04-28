@@ -37,17 +37,15 @@ const MainContainer = ({ children }: PropsWithChildren) => {
       {isDesktopView && children}
       <div id="smooth-wrapper">
         <div id="smooth-content">
-          <div className="container-main">
-            <Landing>{!isDesktopView && children}</Landing>
-            <About />
-            <WhatIDo />
-            <Career />
-            <Work />
-            <Suspense fallback={<div>Loading....</div>}>
-              <TechStack />
-            </Suspense>
-            <Contact />
-          </div>
+          <Landing>{!isDesktopView && children}</Landing>
+          <About />
+          <WhatIDo />
+          <Career />
+          <Work />
+          <Suspense fallback={<div>Loading....</div>}>
+            <TechStack />
+          </Suspense>
+          <Contact />
         </div>
       </div>
     </div>
