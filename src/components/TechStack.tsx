@@ -134,7 +134,7 @@ const TechStack = () => {
   useEffect(() => {
     ScrollTrigger.create({
       trigger: "#techstack",
-      start: "top 80%",
+      start: "top 20%",
       onToggle: (self) => setIsActive(self.isActive),
     });
   }, []);
