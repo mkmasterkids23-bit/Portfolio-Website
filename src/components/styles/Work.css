@@ -11,8 +11,10 @@
   height: 100vh;
   box-sizing: border-box;
   will-change: transform;
-  z-index: 5;
+  z-index: 1;
   background-color: var(--backgroundColor);
+  overflow: hidden;
+  position: relative;
 }
 .work-container {
   margin: auto;
