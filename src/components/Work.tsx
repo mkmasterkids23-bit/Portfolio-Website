@@ -87,7 +87,7 @@ const Work = () => {
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${setTranslateX()}`,
+        end: () => `+=${setTranslateX() + window.innerWidth}`,
         scrub: 1,
         pin: true,
         anticipatePin: 1,
