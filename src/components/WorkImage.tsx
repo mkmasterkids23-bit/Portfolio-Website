@@ -40,7 +40,6 @@ const WorkImage = (props: Props) => {
         <img 
           src={props.image} 
           alt={props.alt} 
-          onLoad={() => ScrollTrigger.refresh()}
         />
         {isVideo && <video src={video} autoPlay muted playsInline loop></video>}
       </a>

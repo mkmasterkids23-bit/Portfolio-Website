@@ -81,12 +81,14 @@ const Work = () => {
     window.addEventListener("resize", refresh);
     setTimeout(refresh, 500);
     setTimeout(refresh, 1500);
+    setTimeout(refresh, 3000);
+    setTimeout(refresh, 5000);
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${document.querySelector(".work-flex")?.scrollWidth || 5000}`,
+        end: () => `+=${600 * projectsData.length}`,
         scrub: 1,
         pin: true,
         pinSpacing: true,
@@ -97,11 +99,7 @@ const Work = () => {
     });
 
     timeline.to(".work-flex", {
-      x: () => {
-        const flex = document.querySelector(".work-flex") as HTMLElement;
-        if (!flex) return 0;
-        return -(flex.scrollWidth - window.innerWidth + 100);
-      },
+      x: () => -(600 * projectsData.length - window.innerWidth),
       ease: "none",
     });
 
@@ -116,7 +114,7 @@ const Work = () => {
         <h2>
           My <span>Work</span>
         </h2>
-        <div className="work-flex">
+        <div className="work-flex" style={{ width: `${projectsData.length * 600}px` }}>
           {projectsData.map((project, index) => (
             <div className="work-box" key={index}>
               <div className="work-info">
