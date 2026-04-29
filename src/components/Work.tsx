@@ -65,15 +65,6 @@ const projectsData = [
 
 const Work = () => {
   useGSAP(() => {
-    const getScrollAmount = () => {
-      const flex = document.querySelector(".work-flex") as HTMLElement;
-      if (!flex) return 0;
-      // 9 projects * 600px each + margins/padding
-      const projectsWidth = 600 * 9; 
-      const viewportWidth = window.innerWidth;
-      return Math.max(0, projectsWidth - (viewportWidth * 0.5));
-    };
-
     const refresh = () => {
       ScrollTrigger.refresh();
     };
