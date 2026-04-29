@@ -86,7 +86,10 @@ const Work = () => {
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${600 * projectsData.length}`,
+        end: () => {
+          const flex = document.querySelector(".work-flex") as HTMLElement;
+          return flex ? `+=${flex.scrollWidth}` : `+=${600 * projectsData.length}`;
+        },
         scrub: true,
         pin: true,
         pinSpacing: true,
@@ -96,7 +99,10 @@ const Work = () => {
     });
 
     timeline.to(".work-flex", {
-      x: () => -(600 * projectsData.length - window.innerWidth),
+      x: () => {
+        const flex = document.querySelector(".work-flex") as HTMLElement;
+        return flex ? -(flex.scrollWidth - window.innerWidth) : 0;
+      },
       ease: "none",
     });
 
@@ -111,7 +117,7 @@ const Work = () => {
         <h2>
           My <span>Work</span>
         </h2>
-        <div className="work-flex" style={{ width: `${projectsData.length * 600}px` }}>
+        <div className="work-flex">
           {projectsData.map((project, index) => (
             <div className="work-box" key={index}>
               <div className="work-info">
