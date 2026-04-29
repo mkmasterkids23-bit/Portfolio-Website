@@ -79,20 +79,17 @@ const Work = () => {
     };
 
     window.addEventListener("resize", refresh);
-    setTimeout(refresh, 500);
-    setTimeout(refresh, 1500);
+    setTimeout(refresh, 1000);
     setTimeout(refresh, 3000);
-    setTimeout(refresh, 5000);
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
         end: () => `+=${600 * projectsData.length}`,
-        scrub: 1,
+        scrub: true,
         pin: true,
         pinSpacing: true,
-        anticipatePin: 1,
         invalidateOnRefresh: true,
         refreshPriority: 1,
       },

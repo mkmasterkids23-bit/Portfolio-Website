@@ -71,10 +71,12 @@ export function setCharTimeline(
         object.material.transparent = true;
         object.material.opacity = 0;
         object.material.emissive.set("#C8BFFF");
-        gsap.timeline({ repeat: -1, repeatRefresh: true }).to(object.material, {
-          emissiveIntensity: () => intensity * 8,
-          duration: () => Math.random() * 0.6,
-          delay: () => Math.random() * 0.1,
+        gsap.to(object.material, {
+          emissiveIntensity: 5,
+          repeat: -1,
+          yoyo: true,
+          duration: 0.5,
+          ease: "sine.inOut"
         });
         screenLight = object;
       }
