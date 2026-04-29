@@ -82,27 +82,29 @@ const Work = () => {
     setTimeout(refresh, 1000);
     setTimeout(refresh, 3000);
 
+    const getValues = () => {
+      const flex = document.querySelector(".work-flex") as HTMLElement;
+      if (!flex) return { scrollAmount: 0, totalWidth: 0 };
+      const totalWidth = flex.scrollWidth;
+      const scrollAmount = totalWidth - window.innerWidth;
+      console.log("Work Debug:", { totalWidth, scrollAmount, projectCount: projectsData.length });
+      return { scrollAmount, totalWidth };
+    };
+
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => {
-          const flex = document.querySelector(".work-flex") as HTMLElement;
-          return flex ? `+=${flex.scrollWidth}` : `+=${600 * projectsData.length}`;
-        },
+        end: () => `+=${getValues().totalWidth + 500}`,
         scrub: true,
         pin: true,
         pinSpacing: true,
         invalidateOnRefresh: true,
-        refreshPriority: 1,
       },
     });
 
     timeline.to(".work-flex", {
-      x: () => {
-        const flex = document.querySelector(".work-flex") as HTMLElement;
-        return flex ? -(flex.scrollWidth - window.innerWidth) : 0;
-      },
+      x: () => -getValues().scrollAmount,
       ease: "none",
     });
 
