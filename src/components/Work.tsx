@@ -82,7 +82,7 @@ const Work = () => {
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${scrollAmount}`,
+        end: "+=1500",
         scrub: 1, // Smooth scrubbing
         pin: true,
         pinSpacing: true,
