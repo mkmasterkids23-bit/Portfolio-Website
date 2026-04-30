@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import gsap from "gsap";
@@ -64,29 +65,32 @@ const projectsData = [
 ];
 
 const Work = () => {
+  const [cardWidth, setCardWidth] = useState(600);
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+      if (window.innerWidth <= 1100) setCardWidth(350);
+      else if (window.innerWidth <= 1400) setCardWidth(450);
+      else setCardWidth(600);
+    };
+    handleResize(); // Initial call
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const totalWidth = projectsData.length * cardWidth;
+  const scrollAmount = Math.max(0, totalWidth - viewportWidth);
+
   useGSAP(() => {
-    const refresh = () => {
-      ScrollTrigger.refresh();
-    };
-
-    window.addEventListener("resize", refresh);
-    setTimeout(refresh, 1000);
-    setTimeout(refresh, 3000);
-
-    const getValues = () => {
-      const flex = document.querySelector(".work-flex") as HTMLElement;
-      if (!flex) return { scrollAmount: 0, totalWidth: 0 };
-      const totalWidth = flex.scrollWidth;
-      const scrollAmount = totalWidth - window.innerWidth;
-      console.log("Work Calc:", { totalWidth, scrollAmount, boxes: flex.children.length });
-      return { scrollAmount, totalWidth };
-    };
+    if (totalWidth === 0) return;
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${getValues().totalWidth + 500}`,
+        end: () => `+=${totalWidth}`,
         scrub: true,
         pin: true,
         pinSpacing: true,
@@ -95,22 +99,40 @@ const Work = () => {
     });
 
     timeline.to(".work-flex", {
-      x: () => -getValues().scrollAmount,
+      x: -scrollAmount,
       ease: "none",
     });
 
+    const debugPanel = document.getElementById('debug-panel');
+    if (debugPanel) {
+      debugPanel.innerHTML = `
+        Total Forced Width: ${totalWidth}px<br/>
+        Window Width: ${viewportWidth}px<br/>
+        Scroll Amount: ${scrollAmount}px<br/>
+        Card Width: ${cardWidth}px
+      `;
+    }
+
     return () => {
-      window.removeEventListener("resize", refresh);
       timeline.kill();
     };
-  }, []);
+  }, [totalWidth, scrollAmount]);
   return (
-    <div className="work-section" id="work">
+    <div className="work-section" id="work" style={{ position: 'relative' }}>
+      <div 
+        id="debug-panel" 
+        style={{ 
+          position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.8)', 
+          color: 'lime', padding: '10px', zIndex: 9999, fontFamily: 'monospace', fontSize: '14px' 
+        }}
+      >
+        Waiting for calculation...
+      </div>
       <div className="work-container">
         <h2>
           My <span>Work</span>
         </h2>
-        <div className="work-flex">
+        <div className="work-flex" style={{ width: totalWidth, position: 'relative' }}>
           {projectsData.map((project, index) => (
             <div className="work-box" key={index}>
               <div className="work-info">
