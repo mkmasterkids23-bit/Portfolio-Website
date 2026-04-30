@@ -23,7 +23,7 @@
 }
 .work-flex {
   width: max-content;
-  display: flex;
+  display: inline-flex;
   flex-wrap: nowrap;
   height: 100%;
   margin-left: -80px;

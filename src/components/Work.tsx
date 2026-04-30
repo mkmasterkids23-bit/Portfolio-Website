@@ -72,18 +72,20 @@ const Work = () => {
 
     window.addEventListener("resize", refresh);
     setTimeout(refresh, 500);
+    setTimeout(refresh, 2000);
 
-    const getScrollDistance = () => {
+    const getScrollAmount = () => {
       const flex = document.querySelector(".work-flex") as HTMLElement;
-      return flex ? flex.scrollWidth : 5000; // Fallback
+      if (!flex) return 0;
+      return flex.scrollWidth - window.innerWidth; 
     };
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${getScrollDistance()}`,
-        scrub: true,
+        end: () => `+=${getScrollAmount()}`,
+        scrub: 1, // Smooth scrubbing
         pin: true,
         pinSpacing: true,
         invalidateOnRefresh: true,
@@ -91,8 +93,7 @@ const Work = () => {
     });
 
     timeline.to(".work-flex", {
-      xPercent: -100,
-      x: () => window.innerWidth,
+      x: () => -getScrollAmount(),
       ease: "none",
     });
 
