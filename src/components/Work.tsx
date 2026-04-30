@@ -74,17 +74,11 @@ const Work = () => {
     setTimeout(refresh, 3000);
 
     const getValues = () => {
-      const projectsCount = projectsData.length;
-      let cardWidth = 600;
-      if (window.innerWidth <= 1100) {
-        cardWidth = 350;
-      } else if (window.innerWidth <= 1400) {
-        cardWidth = 450;
-      }
-      
-      const totalWidth = projectsCount * cardWidth;
-      const scrollAmount = totalWidth - window.innerWidth + 200; // Small buffer
-      console.log("Work Manual Calc:", { totalWidth, scrollAmount, cardWidth });
+      const flex = document.querySelector(".work-flex") as HTMLElement;
+      if (!flex) return { scrollAmount: 0, totalWidth: 0 };
+      const totalWidth = flex.scrollWidth;
+      const scrollAmount = totalWidth - window.innerWidth;
+      console.log("Work Calc:", { totalWidth, scrollAmount, boxes: flex.children.length });
       return { scrollAmount, totalWidth };
     };
 
@@ -112,7 +106,7 @@ const Work = () => {
   }, []);
   return (
     <div className="work-section" id="work">
-      <div className="work-container section-container">
+      <div className="work-container">
         <h2>
           My <span>Work</span>
         </h2>
