@@ -3,10 +3,9 @@ import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+gsap.registerPlugin(ScrollTrigger);
 
 const projectsData = [
   {
@@ -69,34 +68,21 @@ const Work = () => {
   useGSAP(() => {
     const refresh = () => {
       ScrollTrigger.refresh();
-      const smoother = ScrollSmoother.get();
-      if (smoother) {
-        // Force ScrollSmoother to recalculate the page bounds
-        // after ScrollTrigger adds the pinSpacing padding
-        requestAnimationFrame(() => {
-          ScrollTrigger.refresh(); 
-        });
-      }
     };
 
     window.addEventListener("resize", refresh);
     setTimeout(refresh, 500);
-    setTimeout(refresh, 2500); // Give images time to load
+    setTimeout(refresh, 2000);
 
-    const getScrollAmount = () => {
-      const flex = document.querySelector(".work-flex") as HTMLElement;
-      if (!flex) return 0;
-      return flex.scrollWidth - window.innerWidth;
-    };
-
-    // Calculate dynamically from the DOM so we always have the exact width
-    const scrollAmount = getScrollAmount() > 0 ? getScrollAmount() : (projectsData.length * 600 - window.innerWidth + 300);
+    const totalWidth = projectsData.length * 600; // 9 * 600 = 5400px
+    const viewportWidth = window.innerWidth;
+    const scrollAmount = totalWidth - viewportWidth + 300; // Add 300px buffer to ensure we reach the end
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: () => `+=${scrollAmount}`,
+        end: "+=1500",
         scrub: 1, // Smooth scrubbing
         pin: true,
         pinSpacing: true,
