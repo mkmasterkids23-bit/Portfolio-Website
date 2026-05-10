@@ -73,32 +73,43 @@ const Work = () => {
     setTimeout(refresh, 500);
     setTimeout(refresh, 2000);
 
-    const workBoxes = document.querySelectorAll(".work-box");
-    const boxWidth = workBoxes[0]?.getBoundingClientRect().width || 600;
-    const totalWidth = projectsData.length * boxWidth;
-    const viewportWidth = window.innerWidth;
-    const scrollAmount = totalWidth - viewportWidth + (viewportWidth * 0.1); // Add small buffer based on viewport
+    const mm = gsap.matchMedia();
 
-    let timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".work-section",
-        start: "top top",
-        end: "+=1500",
-        scrub: 1, // Smooth scrubbing
-        pin: true,
-        pinSpacing: true,
-        invalidateOnRefresh: true,
-      },
-    });
+    mm.add("(min-width: 0px)", () => {
+      const calculateScroll = () => {
+        const container = document.querySelector(".work-flex") as HTMLElement;
+        const workBoxes = document.querySelectorAll(".work-box");
+        if (!container || workBoxes.length === 0) return 0;
+        
+        const totalWidth = container.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        return totalWidth - viewportWidth;
+      };
 
-    timeline.to(".work-flex", {
-      x: -scrollAmount,
-      ease: "none",
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".work-section",
+          start: "top top",
+          end: () => `+=${calculateScroll()}`,
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      timeline.to(".work-flex", {
+        x: () => -calculateScroll(),
+        ease: "none",
+      });
+
+      return () => {
+        timeline.kill();
+      };
     });
 
     return () => {
       window.removeEventListener("resize", refresh);
-      timeline.kill();
     };
   }, []);
 

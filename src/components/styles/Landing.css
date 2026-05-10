@@ -106,15 +106,14 @@
 }
 
 .character-model {
-  height: 80%;
   height: 80vh;
-  position: absolute;
+  position: fixed;
   max-width: 1920px;
   max-height: 1080px;
   transform: translateX(-50%);
   width: 100%;
   left: 50%;
-  z-index: 0;
+  z-index: 11;
   bottom: 20px;
   pointer-events: inherit;
 }
@@ -311,8 +310,8 @@
     font-size: 16px;
   }
   .character-model {
-    height: 60vh;
-    bottom: 80px;
+    height: 70vh;
+    bottom: 20px;
   }
 }
 
