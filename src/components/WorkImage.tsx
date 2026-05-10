@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 interface Props {
   image: string;
   alt?: string;

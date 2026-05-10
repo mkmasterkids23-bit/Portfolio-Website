@@ -4,20 +4,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-let flickerInterval: NodeJS.Timeout | null = null;
-let intensity: number = 0;
-
 export function setCharTimeline(
   character: THREE.Object3D | null,
   camera: THREE.PerspectiveCamera
 ) {
   if (!character) return;
-
-  // Clear existing interval if any
-  if (flickerInterval) clearInterval(flickerInterval);
-  flickerInterval = setInterval(() => {
-    intensity = Math.random();
-  }, 200);
 
   const landingSection = document.querySelector(".landing-section");
   const tl1 = landingSection ? gsap.timeline({

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import gsap from "gsap";
