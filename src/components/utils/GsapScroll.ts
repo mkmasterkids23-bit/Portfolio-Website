@@ -76,22 +76,15 @@ export function setCharTimeline(
 
   const neckBone = character.getObjectByName("spine005");
   
-  const mm = gsap.matchMedia();
-
-  mm.add({
-    isDesktop: "(min-width: 1025px)",
-    isMobile: "(max-width: 1024px)"
-  }, (context) => {
-    const { isDesktop } = context.conditions as any;
-
+  if (window.innerWidth > 1024) {
     if (tl1) {
       tl1
-        .fromTo(character.rotation, { y: 0 }, { y: isDesktop ? 0.7 : 0.4, duration: 1 }, 0)
-        .to(camera.position, { z: isDesktop ? 22 : 35 }, 0)
-        .fromTo(".character-model", { x: 0, y: "0%" }, { x: isDesktop ? "-25%" : "0%", y: isDesktop ? "0%" : "5%", duration: 1 }, 0)
+        .fromTo(character.rotation, { y: 0 }, { y: 0.7, duration: 1 }, 0)
+        .to(camera.position, { z: 22 }, 0)
+        .fromTo(".character-model", { x: 0 }, { x: "-25%", duration: 1 }, 0)
         .to(".landing-container", { opacity: 0, duration: 0.4, pointerEvents: "none" }, 0)
-        .to(".landing-container", { y: isDesktop ? "40%" : "20%", duration: 0.8 }, 0)
-        .fromTo(".about-me", { y: isDesktop ? "-50%" : "-20%" }, { y: "0%" }, 0);
+        .to(".landing-container", { y: "40%", duration: 0.8 }, 0)
+        .fromTo(".about-me", { y: "-50%" }, { y: "0%" }, 0);
     }
 
     if (tl2) {
@@ -114,18 +107,18 @@ export function setCharTimeline(
       tl2
         .to(
           camera.position,
-          { z: isDesktop ? 75 : 90, y: isDesktop ? 8.4 : 12, duration: 6, delay: 2, ease: "power3.inOut" },
+          { z: 75, y: 8.4, duration: 6, delay: 2, ease: "power3.inOut" },
           0
         )
-        .to(".about-section", { y: isDesktop ? "30%" : "10%", duration: 6 }, 0)
+        .to(".about-section", { y: "30%", duration: 6 }, 0)
         .to(".about-section", { opacity: 0, delay: 3, duration: 2, pointerEvents: "none" }, 0)
         .fromTo(
           ".character-model",
           { pointerEvents: "inherit" },
-          { pointerEvents: "none", x: isDesktop ? "-12%" : "0%", y: isDesktop ? "0%" : "-5%", delay: 2, duration: 5 },
+          { pointerEvents: "none", x: "-12%", delay: 2, duration: 5 },
           0
         )
-        .to(character.rotation, { y: isDesktop ? 0.92 : 0.6, x: 0.12, delay: 3, duration: 3 }, 0)
+        .to(character.rotation, { y: 0.92, x: 0.12, delay: 3, duration: 3 }, 0)
         .fromTo(
           ".what-box-in",
           { display: "none" },
@@ -148,31 +141,25 @@ export function setCharTimeline(
       tl3
         .fromTo(
           ".character-model",
-          { y: isDesktop ? "0%" : "-5%" },
-          { y: isDesktop ? "-100%" : "-95%", duration: 4, ease: "none", delay: 1 },
+          { y: "0%" },
+          { y: "-100%", duration: 4, ease: "none", delay: 1 },
           0
         )
-        .fromTo(".whatIDO", { y: 0 }, { y: isDesktop ? "15%" : "5%", duration: 2 }, 0)
+        .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)
         .to(character.rotation, { x: -0.04, duration: 2, delay: 1 }, 0);
     }
-
-    if (!isDesktop) {
-      const whatBoxIn = document.querySelector(".what-box-in");
-      if (whatBoxIn) {
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: whatBoxIn,
-            start: "top 70%",
-            end: "bottom top",
-          },
-        }).to(whatBoxIn, { display: "flex", duration: 0.1 }, 0);
-      }
+  } else {
+    const whatBoxIn = document.querySelector(".what-box-in");
+    if (whatBoxIn) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: whatBoxIn,
+          start: "top 70%",
+          end: "bottom top",
+        },
+      }).to(whatBoxIn, { display: "flex", duration: 0.1 }, 0);
     }
-
-    return () => {
-      // Cleanup
-    };
-  });
+  }
 }
 
 export function setAllTimeline() {

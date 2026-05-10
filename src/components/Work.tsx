@@ -73,48 +73,41 @@ const Work = () => {
     setTimeout(refresh, 500);
     setTimeout(refresh, 2000);
 
-    const mm = gsap.matchMedia();
+    const workBoxes = document.querySelectorAll(".work-box");
+    const isMobile = window.innerWidth <= 500;
+    const boxWidth = workBoxes[0]?.getBoundingClientRect().width || (isMobile ? window.innerWidth * 0.9 : 600);
+    const totalWidth = projectsData.length * boxWidth;
+    const viewportWidth = window.innerWidth;
+    
+    // Calculate scroll amount: total width minus what's already visible
+    // For mobile, we want to ensure the last project is fully visible, so we add a bit more buffer
+    const scrollAmount = totalWidth - viewportWidth + (isMobile ? viewportWidth * 0.1 : 300);
 
-    mm.add("(min-width: 0px)", () => {
-      const calculateScroll = () => {
-        const container = document.querySelector(".work-flex") as HTMLElement;
-        const workBoxes = document.querySelectorAll(".work-box");
-        if (!container || workBoxes.length === 0) return 0;
-        
-        const totalWidth = container.scrollWidth;
-        const viewportWidth = window.innerWidth;
-        return totalWidth - viewportWidth;
-      };
+    let timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".work-section",
+        start: "top top",
+        end: "+=1500",
+        scrub: 1, // Smooth scrubbing
+        pin: true,
+        pinSpacing: true,
+        invalidateOnRefresh: true,
+      },
+    });
 
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".work-section",
-          start: "top top",
-          end: () => `+=${calculateScroll()}`,
-          scrub: 1,
-          pin: true,
-          pinSpacing: true,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      timeline.to(".work-flex", {
-        x: () => -calculateScroll(),
-        ease: "none",
-      });
-
-      return () => {
-        timeline.kill();
-      };
+    timeline.to(".work-flex", {
+      x: -scrollAmount,
+      ease: "none",
     });
 
     return () => {
       window.removeEventListener("resize", refresh);
+      timeline.kill();
     };
   }, []);
 
   return (
-    <div className="work-section" id="work" style={{ position: 'relative' }}>
+    <div className="work-section" id="work" style={{ position: 'relative', zIndex: 10 }}>
       <div className="work-container">
         <h2>
           My <span>Work</span>
