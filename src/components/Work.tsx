@@ -73,9 +73,11 @@ const Work = () => {
     setTimeout(refresh, 500);
     setTimeout(refresh, 2000);
 
-    const totalWidth = projectsData.length * 600; // 9 * 600 = 5400px
+    const workBoxes = document.querySelectorAll(".work-box");
+    const boxWidth = workBoxes[0]?.getBoundingClientRect().width || 600;
+    const totalWidth = projectsData.length * boxWidth;
     const viewportWidth = window.innerWidth;
-    const scrollAmount = totalWidth - viewportWidth + 300; // Add 300px buffer to ensure we reach the end
+    const scrollAmount = totalWidth - viewportWidth + (viewportWidth * 0.1); // Add small buffer based on viewport
 
     let timeline = gsap.timeline({
       scrollTrigger: {

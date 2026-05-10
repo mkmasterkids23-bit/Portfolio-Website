@@ -329,8 +329,8 @@
     height: 500px;
   }
   .what-box {
-    width: 500px;
-    max-width: calc(100% - 50px);
+    width: 100%;
+    max-width: 100%;
     margin: auto;
   }
   .what-content {
@@ -382,7 +382,7 @@
     justify-content: left;
   }
   .what-box {
-    max-width: calc(100% - 25px);
+    max-width: 100%;
     margin: 0;
   }
 }
